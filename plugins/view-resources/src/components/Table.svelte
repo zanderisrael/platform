@@ -568,7 +568,7 @@
       left: 0;
       height: 2.5rem;
       &.padding {
-        padding-left: 2.5rem;
+        padding-inline-start: 2.5rem;
       }
     }
   }

@@ -22,6 +22,7 @@
   import textEditor from '@hcengineering/text-editor'
   import { AnyExtension, Content, Editor, FocusPosition, mergeAttributes } from '@tiptap/core'
   import Placeholder from '@tiptap/extension-placeholder'
+  import TextAlign from '@tiptap/extension-text-align'
   import { ParseOptions } from '@tiptap/pm/model'
   import { EditorView } from '@tiptap/pm/view'
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
@@ -182,6 +183,9 @@
             }
           }),
           Placeholder.configure({ placeholder: placeHolderStr }),
+          TextAlign.configure({ types: ['heading', 'paragraph'], 
+          alignments: ['left', 'center', 'right', 'justify'], 
+          defaultAlignment: $themeStore.direction === "rtl" ? 'right' : 'left' }),
           ...extensions
         ],
         parseOptions: {

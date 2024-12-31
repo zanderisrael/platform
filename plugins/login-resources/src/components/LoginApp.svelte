@@ -188,7 +188,11 @@
 
     .bg-image {
       display: flex;
-      flex-direction: row-reverse;
+      flex-direction: row;
+      justify-content: flex-end;
+      &:dir(rtl){
+        justify-content: flex-start;
+      }
       width: 100%;
       height: 100%;
     }

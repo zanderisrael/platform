@@ -29,6 +29,7 @@
 <div class="editbox{error ? ' error' : ''}" style={width ? 'width: ' + width : ''}>
   {#if password}
     <input
+      dir="auto"
       type="password"
       class:nolabel={!label}
       {id}
@@ -46,6 +47,7 @@
     />
   {:else}
     <input
+      dir="auto"
       type="text"
       class:nolabel={!label}
       {id}
@@ -87,10 +89,12 @@
     input {
       height: 3.25rem;
       margin: 0;
-      padding: 0.875rem 1.25rem 0px;
+      padding: 0.875rem 0 0 0px;
+      padding-inline: 1.25rem;
       background-color: transparent;
       border: none;
       border-radius: 0.75rem;
+      text-align: justify;
     }
     .nolabel {
       padding-top: 0;
@@ -100,6 +104,10 @@
       position: absolute;
       top: 1rem;
       left: 1.25rem;
+      &:dir(rtl){
+        right: 1.25rem;
+        left: auto;
+      }
       font-size: 0.75rem;
       color: var(--theme-caption-color);
       opacity: 0.8;

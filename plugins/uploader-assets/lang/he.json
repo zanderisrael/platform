@@ -1,0 +1,13 @@
+{
+  "string": {
+    "Cancel": "בטל",
+    "Retry": "נסה שנית",
+    "UploadingTo": "מעלה {files, plural, =1 {# קובץ} other {# קבצים}} אל"
+  },
+  "status": {
+    "Error": "שגיאה",
+    "Waiting": "ממתין",
+    "Uploading": "מעלה",
+    "Completed": "הושלם"
+  }
+}

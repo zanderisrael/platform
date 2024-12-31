@@ -50,7 +50,7 @@ export const DefaultKit = Extension.create<DefaultKitOptions>({
         heading: this.options.heading,
         history: this.options.history
       }),
-      Underline,
+      //Underline,
       Highlight.configure({
         multicolor: false
       }),

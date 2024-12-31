@@ -93,7 +93,8 @@
     justify-content: stretch;
     align-items: center;
     align-self: stretch;
-    padding: 0 var(--spacing-0_5) 0 0;
+    padding: 0;
+    padding-inline: var(--spacing-0_5);
     height: var(--global-small-Size);
     min-width: var(--global-small-Size);
     background-color: var(--theme-button-default); // var(--input-BackgroundColor);
@@ -118,7 +119,8 @@
       }
     }
     .searchInput-icon {
-      margin: 0 var(--spacing-0_5) 0 0;
+      margin: 0;
+      margin-inline-end: var(--spacing-0_5);
       width: var(--global-small-Size);
       height: var(--global-small-Size);
       color: var(--input-search-IconColor);
@@ -150,7 +152,7 @@
 
     input {
       margin: 0;
-      margin-right: var(--spacing-1_5);
+      margin-inline: var(--spacing-1_5);
       padding: 0;
       width: 100%;
       height: 100%;
@@ -178,7 +180,8 @@
     }
     &:active,
     &:focus-within {
-      padding: 0 var(--spacing-0_5) 0 0;
+      padding: 0;
+      padding-inline-end: var(--spacing-0_5);
       max-width: 15rem;
       background-color: var(--input-BackgroundColor);
       outline: 2px solid var(--global-focus-BorderColor);

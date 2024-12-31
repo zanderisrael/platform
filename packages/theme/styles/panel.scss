@@ -136,12 +136,12 @@
       align-items: center;
       flex-shrink: 0;
       gap: var(--spacing-0_5);
-      margin-left: var(--spacing-1);
+      margin-inline-start: var(--spacing-1);
       min-width: 0;
       max-width: 50%;
     }
     &__arrow {
-      margin-left: var(--spacing-0_5);
+      margin-inline-start: var(--spacing-0_5);
       width: var(--global-min-Size);
       height: var(--global-min-Size);
       color: var(--global-accent-IconColor);
@@ -168,8 +168,8 @@
     }
   }
   &.nested .hulyNavGroup-header {
-    .hulyNavGroup-header__icon { margin: 0 var(--spacing-0_25) 0 0; }
-    .hulyNavGroup-header__label { padding: 0 var(--spacing-0_75) 0 0; }
+    .hulyNavGroup-header__icon { margin: 0; margin-inline-end: var(--spacing-0_25); }
+    .hulyNavGroup-header__label { padding: 0; padding-inline-end: var(--spacing-0_75); }
     &.isOpen .hulyNavGroup-header__label { background-color: var(--global-ui-BackgroundColor); }
   }
   .hulyNavGroup-header:hover,
@@ -185,7 +185,7 @@
     min-height: var(--global-small-Size);
     border-radius: var(--small-BorderRadius);
 
-    &.selected { padding-right: var(--spacing-0_75); }
+    &.selected { padding-inline-end: var(--spacing-0_75); }
     &.isOpen { margin-bottom: 0; }
   }
 
@@ -316,7 +316,7 @@
       display: flex;
       align-items: center;
       flex-grow: 1;
-      margin-right: .75rem;
+      margin-inline-end: .75rem;
       min-width: 0;
       min-height: 0;
 
@@ -328,7 +328,7 @@
         background-color: var(--theme-breadcrumb-default);
         border-radius: .25rem;
 
-        &:not(:last-child) { margin-right: .125rem; }
+        &:not(:last-child) { margin-inline-end: .125rem; }
         &:not(.disabled, .not-active) {
           cursor: pointer;
 
@@ -392,15 +392,15 @@
         display: flex;
         flex-direction: column;
         // flex-shrink: 0;
-        margin-left: auto;
-        margin-right: auto;
+        margin-inline-start: auto;
+        margin-inline-end: auto;
         width: calc(100% - 7.5rem);
         max-width: 54rem;
 
         &.side-content-space {
           --side-content-space: 21rem;
           max-width: calc(54rem + var(--side-content-space));
-          padding-right: var(--side-content-space);
+          padding-inline-end: var(--side-content-space);
         }
 
         &.max {
@@ -529,7 +529,7 @@
           align-self: start;
           margin-top: .4rem;
         }
-        .textPadding { margin-left: .875rem; }
+        .textPadding { margin-inline-start: .875rem; }
       }
       &-content {
         display: flex;

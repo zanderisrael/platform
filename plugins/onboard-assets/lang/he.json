@@ -1,0 +1,19 @@
+{
+  "status": {
+    "RequiredField": "שדה חובה {field}",
+    "FieldsDoNotMatch": "{field} אינו תואם {field2}",
+    "ConnectingToServer": "מתחבר לשרת..."
+  },
+  "string": {
+    "CreateWorkspace": "צור מרחב עבודה",
+    "LastName": "שם משפחה",
+    "FirstName": "שם פרטי",
+    "Workspace": "שם מרחב עבודה",
+    "FillInProfile": "מלא את פרופילך",
+    "SetUpPassword": "הגדר סיסמה",
+    "Next": "הבא",
+    "Skip": "דלג",
+    "SignUpCompleted": "ההרשמה הושלמה",
+    "StartUsingHuly": "התחל להשתמש ב-Huly"
+  }
+}

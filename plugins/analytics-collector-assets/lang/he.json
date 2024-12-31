@@ -1,0 +1,22 @@
+{
+  "string": {
+    "OnboardingChannelDescription": "משתמש: {user}; סביבת עבודה: {workspace}",
+    "Error": "שגיאה: ",
+    "InProject": " בפרויקט ",
+    "NavigateToSpecial": "{app}: פתח {special}",
+    "OpenSpecial": "פתח {special} ",
+    "Set": "הגדר ",
+    "To": " ל ",
+    "Open": "פתח ",
+    "Workbench": "סדנה: ",
+    "OnboardingChannel": "ערוץ הטמעה",
+    "OnboardingChannels": "ערוצי הטמעה",
+    "WorkspaceId": "מזהה סביבת עבודה",
+    "WorkspaceName": "שם סביבת עבודה",
+    "WorkspaceUrl": "כתובת אינטרנט של סביבת עבודה",
+    "Email": "דוא\"ל",
+    "UserName": "שם משתמש",
+    "DisableAIReplies": "בטל תגובות מלאכותיות",
+    "ShowAIReplies": "הצג תגובות מלאכותיות"
+  }
+}

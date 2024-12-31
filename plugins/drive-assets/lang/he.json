@@ -1,0 +1,32 @@
+{
+  "string": {
+    "Drive": "דיסק",
+    "Drives": "דיסקים",
+    "Grid": "רשת",
+    "File": "קובץ",
+    "Files": "קבצים",
+    "FileVersion": "גרסת קובץ",
+    "FileVersions": "גרסאות קובץ",
+    "Folder": "תיקייה",
+    "Folders": "תיקיות",
+    "Resource": "משאב",
+    "Name": "שם",
+    "Description": "תיאור",
+    "Parent": "הורה",
+    "Path": "נתיב",
+    "Version": "גרסה",
+    "Size": "גודל",
+    "ContentType": "סוג תוכן",
+    "LastModified": "עודכן לאחרונה",
+    "Download": "הורדה",
+    "Upload": "העלאה",
+    "CreateDrive": "צור דיסק",
+    "CreateFolder": "צור תיקייה",
+    "UploadFile": "העלה קבצים",
+    "EditDrive": "ערוך דיסק",
+    "Rename": "שנה שם",
+    "Restore": "שחזר",
+    "RoleLabel": "תפקיד",
+    "Root": "/"
+  }
+}

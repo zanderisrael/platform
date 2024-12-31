@@ -18,6 +18,7 @@
   import { deviceOptionsStore as deviceInfo, resizeObserver, testing, checkAdaptiveMatching } from '..'
   import { CompAndProps, fitPopupElement, pin } from '../popups'
   import type { AnySvelteComponent, DeviceOptions, PopupAlignment, PopupOptions, PopupPositionElement } from '../types'
+  import { themeStore } from '@hcengineering/theme'
 
   export let is: AnySvelteComponent
   export let props: Record<string, any>
@@ -107,12 +108,12 @@
   ): void => {
     const device: DeviceOptions = $deviceInfo
     if (((fullSize || docSize) && (element === 'float' || element === 'centered')) || isFullMobile) {
-      options = fitPopupElement(modalHTML, device, 'full', contentPanel, clientWidth, clientHeight)
+      options = fitPopupElement(modalHTML, device, 'full', contentPanel, clientWidth, clientHeight, $themeStore.direction)
       options.props.maxHeight = '100vh'
       if (!modalHTML.classList.contains('fullsize')) modalHTML.classList.add('fullsize')
     } else {
       if (element !== 'movable' || options?.props?.top === undefined || options?.props?.top === '') {
-        options = fitPopupElement(modalHTML, device, element, contentPanel, clientWidth, clientHeight)
+        options = fitPopupElement(modalHTML, device, element, contentPanel, clientWidth, clientHeight, $themeStore.direction)
       }
       if (modalHTML.classList.contains('fullsize')) modalHTML.classList.remove('fullsize')
     }

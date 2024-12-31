@@ -1,0 +1,21 @@
+{
+  "string": {
+    "Cancel": "בטל",
+    "Templates": "תבניות טקסט",
+    "TemplatesHeader": "תבניות טקסט",
+    "CreateTemplate": "צור תבנית",
+    "SaveTemplate": "שמור תבנית",
+    "EditTemplate": "ערוך תבנית",
+    "ViewTemplate": "צפה בתבנית",
+    "Suggested": "מומלצים",
+    "SearchTemplate": "חפש תבנית",
+    "TemplatePlaceholder": "תבנית חדשה",
+    "Title": "כותרת",
+    "Message": "הודעה",
+    "Field": "שדה",
+    "TemplateCategory": "קבוצת תבניות",
+    "CreateTemplateCategory": "צור קבוצה",
+    "Copy": "העתק",
+    "Template": "תבנית"
+  }
+}

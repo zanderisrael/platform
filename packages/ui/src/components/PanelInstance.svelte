@@ -15,6 +15,7 @@
 -->
 <script lang="ts">
   import { getResourceC } from '@hcengineering/platform'
+  import { themeStore } from '@hcengineering/theme'
   import { afterUpdate, onMount } from 'svelte'
 
   import { deviceOptionsStore as deviceInfo, resizeObserver } from '..'
@@ -84,6 +85,7 @@
   }
 
   const fitPopup = (props: PanelProps, contentPanel: HTMLElement): void => {
+    //here
     if (modalHTML != null) {
       const device: DeviceOptions = $deviceInfo
       options =
@@ -103,7 +105,7 @@
               showOverlay: true,
               direction: 'bottom'
             }
-          : fitPopupElement(modalHTML, device, props.element, contentPanel)
+          : fitPopupElement(modalHTML, device, props.element, contentPanel, $themeStore.direction)
     }
   }
 

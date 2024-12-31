@@ -18,6 +18,7 @@
   import { checkAdaptiveMatching, deviceOptionsStore as deviceInfo } from '..'
   import { registerFocus } from '../focus'
   import { tooltip } from '../tooltips'
+  import { themeStore } from '@hcengineering/theme'
   import type {
     AnySvelteComponent,
     ButtonKind,
@@ -82,6 +83,7 @@
 
   $: devSize = $deviceInfo.size
   $: adaptive = adaptiveShrink !== null ? checkAdaptiveMatching(devSize, adaptiveShrink) : false
+  $: computedPadding = {padding: iconOnly ? '' : padding} 
 
   onMount(() => {
     if (focus && input) {
@@ -92,6 +94,8 @@
       input.click()
       click = false
     }
+
+    
   })
 
   // Focusable control with index
@@ -126,6 +130,7 @@
 </script>
 
 <!-- {focusIndex} -->
+<!-- svelte-ignore missing-declaration -->
 <button
   use:tooltip={showTooltip}
   bind:this={input}
@@ -147,7 +152,7 @@
   style:width
   style:height
   style:flex-shrink={shrink}
-  style:padding
+  style:padding={ computedPadding.padding}
   {title}
   type={kind === 'primary' ? 'submit' : 'button'}
   on:click={preventHandler}

@@ -468,6 +468,6 @@
 
   .username {
     font-weight: 500;
-    margin-right: 0.25rem;
+    margin-inline-end: 0.25rem;
   }
 </style>

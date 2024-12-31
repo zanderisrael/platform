@@ -179,7 +179,8 @@ export function closePopup (category?: string): void {
 export function fitPopupPositionedElement (
   modalHTML: HTMLElement,
   alignment: PopupPositionElement,
-  newProps: Record<string, string | number>
+  newProps: Record<string, string | number>,
+  rtl?: string
 ): PopupOptions {
   let direction: string = ''
   const rect = alignment.getBoundingClientRect()
@@ -189,36 +190,80 @@ export function fitPopupPositionedElement (
   newProps.left = newProps.right = newProps.top = newProps.bottom = ''
   newProps.maxHeight = newProps.height = ''
   newProps.maxWidth = newProps.width = ''
+
+  // helper to flip direction if rtl
+  const flipIfRtl = (dir: 'left' | 'right') => {
+    if (rtl === 'rtl') {
+      return dir === 'left' ? 'right' : 'left'
+    }
+    return dir
+  }
+
   if (alignment?.kind === 'submenu') {
-    const dirH =
-      docWidth - rect.right - rectPopup.width - 12 > 0 ? 'right' : rect.left > docWidth - rect.left ? 'left' : 'inside'
+    // First figure out our initial horizontal and vertical directions
+    let dirH =
+      docWidth - rect.right - rectPopup.width - 12 > 0
+        ? 'right'
+        : rect.left > docWidth - rect.left
+          ? 'left'
+          : 'inside'
     const dirV =
       docHeight - rect.top - rectPopup.height - 20 > 0
         ? 'bottom'
         : rect.bottom > rectPopup.height + 20
           ? 'top'
           : 'bottom'
-    if (dirH === 'right') newProps.left = `${rect.right - 4}px`
-    else if (dirH === 'inside') newProps.right = '1rem'
-    else newProps.right = `${docWidth - rect.left - 4}px`
-    if (dirV === 'bottom') newProps.top = `${rect.top - 4}px`
-    else newProps.bottom = `${docHeight - rect.bottom - 4}px`
+
+    // Flip horizontal if in RTL
+    if (dirH !== 'inside') {
+      dirH = flipIfRtl(dirH as 'left' | 'right') // 'left' | 'right'
+    }
+
+    // Now apply the actual position props
+    if (dirH === 'right') {
+      // "right" after potential flip
+      newProps.left = `${rect.right - 4}px`
+    } else if (dirH === 'inside') {
+      // inside remains the same
+      newProps.right = '1rem'
+    } else {
+      // must be 'left'
+      newProps.right = `${docWidth - rect.left - 4}px`
+    }
+    if (dirV === 'bottom') {
+      newProps.top = `${rect.top - 4}px`
+    } else {
+      newProps.bottom = `${docHeight - rect.bottom - 4}px`
+    }
+
     direction = `${dirV}|${dirH}`
   } else if (alignment.position !== undefined) {
+    // If explicit position (top/bottom, left/right)
+    // Vertical
     if (alignment.position.v === 'top') {
       newProps.top = `${rect.top}px`
     } else if (alignment.position.v === 'bottom') {
       newProps.top = `${rect.bottom - rectPopup.height}px`
     }
 
-    if (alignment.position.h === 'right') {
+    // Horizontal
+    let hPos = alignment.position.h
+    if (rtl === 'rtl') {
+      // Flip the user’s “left”/“right” if RTL
+      if (hPos === 'left') hPos = 'right'
+      else if (hPos === 'right') hPos = 'left'
+    }
+
+    if (hPos === 'right') {
       newProps.left = `${rect.right + 4}px`
-    } else if (alignment.position.h === 'left') {
+    } else if (hPos === 'left') {
       newProps.left = `${rect.left - rectPopup.width - 4}px`
     }
-    direction = alignment.position.v + '|' + alignment.position.h
+
+    direction = alignment.position.v + '|' + hPos
   } else {
-    // Vertical
+    // No explicit position, choose best fit
+    // Vertical first
     if (rect.bottom + rectPopup.height + 28 <= docHeight) {
       newProps.top = `${rect.bottom + 16}px`
       direction = 'bottom'
@@ -226,22 +271,44 @@ export function fitPopupPositionedElement (
       newProps.bottom = `${docHeight - rect.top + 16}px`
       direction = 'top'
     } else {
+      // fallback stretch
       newProps.top = newProps.bottom = '16px'
       direction = 'top'
     }
 
     // Horizontal
-    if (rect.left + rectPopup.width + 16 <= docWidth) {
-      newProps.left = `${rect.left}px`
-      direction += '|right'
-    } else if (rect.right - rectPopup.width - 16 >= 0) {
-      newProps.right = `${docWidth - rect.right}px`
-      direction += '|left'
+    // in LTR default: prefer left alignment with rect.left
+    // in RTL, we want to default to "right" alignment instead
+    const preferLeft = rtl !== 'rtl'
+
+    if (preferLeft) {
+      // LTR logic
+      if (rect.left + rectPopup.width + 16 <= docWidth) {
+        newProps.left = `${rect.left}px`
+        direction += '|right'
+      } else if (rect.right - rectPopup.width - 16 >= 0) {
+        newProps.right = `${docWidth - rect.right}px`
+        direction += '|left'
+      } else {
+        newProps.left = '16px'
+        direction += '|center'
+      }
     } else {
-      newProps.left = '16px'
-      direction += '|center'
+      // RTL logic
+      // Flip the approach: we try to anchor on 'right' first
+      if (docWidth - rect.right + rectPopup.width + 16 <= docWidth) {
+        newProps.right = `${docWidth - rect.right}px`
+        direction += '|left'
+      } else if (rect.left - rectPopup.width - 16 >= 0) {
+        newProps.left = `${rect.left}px`
+        direction += '|right'
+      } else {
+        newProps.left = '16px'
+        direction += '|center'
+      }
     }
   }
+
   return { props: newProps, showOverlay: false, direction }
 }
 
@@ -252,33 +319,61 @@ export function fitPopupPositionedElement (
  *
  * return boolean to show or not modal overlay.
  */
-export function fitPopupElement (
+export function fitPopupElement(
   modalHTML: HTMLElement,
   device: DeviceOptions,
   element?: PopupAlignment,
   contentPanel?: HTMLElement,
   clientWidth?: number,
-  clientHeight?: number
+  clientHeight?: number,
+  direction?: string // could be 'rtl' or 'ltr' or empty
 ): PopupOptions {
   let show = true
   const newProps: Record<string, string | number> = {}
+
+  // Helper to flip horizontal props in RTL mode
+  // If direction === 'rtl', we swap 'left' <--> 'right'
+  function setHorizontalProp(side: 'left' | 'right', value: string | number) {
+    if (direction === 'rtl') {
+      newProps[side === 'left' ? 'right' : 'left'] = value
+    } else {
+      newProps[side] = value
+    }
+  }
+
   if (element != null) {
+    // We start with no overlay, can flip it to true as needed.
     show = false
-    newProps.left = newProps.right = newProps.top = newProps.bottom = ''
-    newProps.maxHeight = newProps.height = ''
-    newProps.maxWidth = newProps.width = newProps.minWidth = ''
+
+    // Reset relevant props
+    newProps.left = ''
+    newProps.right = ''
+    newProps.top = ''
+    newProps.bottom = ''
+    newProps.maxHeight = ''
+    newProps.height = ''
+    newProps.maxWidth = ''
+    newProps.width = ''
+    newProps.minWidth = ''
+
+    // CASE 1: If `element` is an object, it presumably has .position or .kind
+    // -> Use the specialized fitPopupPositionedElement
     if (typeof element !== 'string') {
-      const result = fitPopupPositionedElement(modalHTML, element, newProps)
-      // applyStyle(newProps, modalHTML)
+      const result = fitPopupPositionedElement(modalHTML, element, newProps, direction)
       return result
-    } else if (element === 'right' && contentPanel !== undefined) {
+    }
+
+    // CASE 2: If `element` is a string (simple alignment keyword),
+    // handle each alignment scenario with optional RTL flipping.
+    else if (element === 'right' && contentPanel !== undefined) {
       const rect = contentPanel.getBoundingClientRect()
       newProps.top = `calc(${rect.top}px + 8px)`
       newProps.bottom = '0.75rem'
-      newProps.right = '0.75rem'
+      setHorizontalProp('right', '0.75rem')
       newProps.maxWidth = '50%'
       show = true
     } else if (element === 'top') {
+      // Example: place at the top, horizontally centered
       const fullHeight = clientHeight !== undefined && clientHeight / device.docHeight > 0.745
       if (clientWidth !== undefined && clientHeight !== undefined) {
         newProps.left = `calc(50% - ${clientWidth / 2}px`
@@ -290,12 +385,14 @@ export function fitPopupElement (
       newProps.maxHeight = fullHeight ? 'calc(100vh - 2rem)' : '75vh'
       show = true
     } else if (element === 'float') {
+      // Usually a corner-floating popup
       newProps.top = 'calc(var(--status-bar-height) + 4px)'
       newProps.bottom = '4px'
-      newProps.left = '60%'
-      newProps.right = '4px'
+      setHorizontalProp('left', '60%')
+      setHorizontalProp('right', '4px')
       show = true
     } else if (element === 'center') {
+      // Perfectly center horizontally and vertically
       if (clientWidth !== undefined && clientHeight !== undefined) {
         newProps.top = `calc(50% - ${clientHeight / 2}px`
         newProps.left = `calc(50% - ${clientWidth / 2}px`
@@ -306,66 +403,70 @@ export function fitPopupElement (
       }
       show = true
     } else if (element === 'centered') {
-      newProps.top = newProps.bottom = '15%'
-      newProps.left = newProps.right = '25%'
+      newProps.top = '15%'
+      newProps.bottom = '15%'
+      newProps.left = '25%'
+      newProps.right = '25%'
       show = true
     } else if (element === 'logo') {
       newProps.top = '2.75rem'
-      newProps.left = '5rem'
+      setHorizontalProp('left', '5rem')
       newProps.maxWidth = '42rem'
       newProps.maxHeight = 'calc(100vh - 5.5rem)'
       show = true
     } else if (element === 'logo-mini') {
       newProps.top = '2.5rem'
-      newProps.left = '.5rem'
+      setHorizontalProp('left', '.5rem')
       newProps.maxWidth = '42rem'
       newProps.maxHeight = 'calc(100vh - 5.5rem)'
       show = true
     } else if (element === 'logo-portrait') {
       newProps.bottom = 'calc(var(--app-panel-width) + .75rem)'
-      newProps.left = '.5rem'
+      setHorizontalProp('left', '.5rem')
       newProps.maxWidth = 'calc(100vw - 1rem)'
       newProps.maxHeight = 'calc(100vh - var(--app-panel-width) - 1.5rem)'
       show = true
     } else if (element === 'account') {
       newProps.bottom = '2.75rem'
-      newProps.left = '5rem'
+      setHorizontalProp('left', '5rem')
       newProps.maxWidth = '42rem'
       newProps.maxHeight = 'calc(100vh - 5.5rem)'
       show = true
     } else if (element === 'account-portrait') {
       newProps.bottom = 'calc(var(--app-panel-width) + .75rem)'
-      newProps.right = '.5rem'
+      setHorizontalProp('right', '.5rem')
       newProps.maxWidth = 'calc(100vw - 1rem)'
       newProps.maxHeight = 'calc(100vh - var(--app-panel-width) - 1.5rem)'
       show = true
     } else if (element === 'account-mobile') {
       newProps.bottom = '.5rem'
-      newProps.left = 'calc(var(--app-panel-width) + .5rem)'
+      // app-panel is typically on the left or right; we flip if needed
+      setHorizontalProp('left', 'calc(var(--app-panel-width) + .5rem)')
       newProps.maxWidth = 'calc(100vw - var(--app-panel-width) - 1rem)'
       newProps.maxHeight = 'calc(100vh - 1rem)'
       show = true
     } else if (element === 'notify') {
       newProps.top = '2.5rem'
-      newProps.left = '4.75rem'
+      setHorizontalProp('left', '4.75rem')
       newProps.maxWidth = '42rem'
       newProps.maxHeight = 'calc(100vh - 5rem)'
       show = true
     } else if (element === 'notify-mobile') {
       newProps.bottom = 'calc(var(--app-panel-width) + .75rem)'
-      newProps.left = '.5rem'
+      setHorizontalProp('left', '.5rem')
       newProps.maxWidth = 'calc(100vw - 1rem)'
       newProps.maxHeight = 'calc(100vh - var(--app-panel-width) - 1.5rem)'
       show = true
     } else if (element === 'full' && contentPanel === undefined) {
+      // Fill screen
       newProps.top = '0'
       newProps.bottom = '0'
       newProps.left = '0'
       newProps.right = '0'
-      // newProps.width = '100vw'
       newProps.height = '100vh'
       show = false
     } else if (element === 'full' && contentPanel !== undefined) {
+      // Fill content area
       const rect = contentPanel.getBoundingClientRect()
       newProps.top = `${rect.top + 1}px`
       newProps.bottom = '1px'
@@ -373,6 +474,7 @@ export function fitPopupElement (
       newProps.right = '1px'
       show = true
     } else if (element === 'full-centered') {
+      // Fill content area, but centered within certain offsets
       const rect = contentPanel !== undefined ? contentPanel.getBoundingClientRect() : { top: 0 }
       newProps.top = `${Math.max(20, rect.top + 1)}px`
       newProps.bottom = '20px'
@@ -382,12 +484,12 @@ export function fitPopupElement (
     } else if (element === 'content' && contentPanel !== undefined) {
       const rect = contentPanel.getBoundingClientRect()
       newProps.top = `${rect.top}px`
-      // newProps.bottom = `${Math.min(document.body.clientHeight - rect.bottom + 1, window.innerHeight - rect.top - 1)}px`
       newProps.height = `${Math.min(rect.height, window.innerHeight - rect.top)}px`
       newProps.left = `${rect.left}px`
-      // newProps.right = `${Math.min(document.body.clientWidth - rect.right, window.innerWidth - rect.left - 5)}px`
       newProps.width = `${Math.min(rect.width, window.innerWidth - rect.left)}px`
+      show = true
     } else if (element === 'middle') {
+      // Typically near middle, but anchored at top
       if (contentPanel !== undefined) {
         const rect = contentPanel.getBoundingClientRect()
         newProps.top = `calc(${rect.top}px)`
@@ -402,19 +504,23 @@ export function fitPopupElement (
         newProps.left = '50%'
         newProps.transform = 'translateX(-50%)'
       }
+      show = true
     } else if (element === 'help-center') {
+      // Floating at top-right in typical LTR design
       newProps.top = 'calc(var(--status-bar-height) + 12px)'
       newProps.bottom = '12px'
-      newProps.right = '12px'
+      setHorizontalProp('right', '12px')
       show = true
     } else if (element === 'status') {
       newProps.top = 'calc(var(--status-bar-height) + 7.5px)'
-      newProps.right = '12px'
+      setHorizontalProp('right', '12px')
     } else if (element === 'movable') {
       newProps.top = 'calc(var(--status-bar-height) + 4px)'
-      newProps.right = '1rem'
+      setHorizontalProp('right', '1rem')
     }
-  } else {
+  } 
+  // CASE 3: No element => fallback to centered
+  else {
     if (clientWidth !== undefined && clientHeight !== undefined) {
       newProps.top = `calc(50% - ${clientHeight / 2}px`
       newProps.left = `calc(50% - ${clientWidth / 2}px`
@@ -425,9 +531,11 @@ export function fitPopupElement (
     }
     show = true
   }
-  // applyStyle(newProps, modalHTML)
+
+  // Return final props + overlay decision
   return { props: newProps, showOverlay: show, direction: '' }
 }
+
 
 export function eventToHTMLElement (evt: MouseEvent): HTMLElement {
   return evt.target as HTMLElement

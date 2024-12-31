@@ -141,6 +141,7 @@
     {width}
     {justify}
     {showTooltip}
+    icon={tracker.icon.Component}
     disabled={!isEditable}
     notSelected={!value}
     {short}
@@ -148,7 +149,7 @@
   >
     <svelte:fragment slot="content">
       <span class="label {enlargedText ? 'text-base' : 'text-md'} overflow-label pointer-events-none">
-        <svelte:component this={ComponentPresenter} value={selectedComponent} />
+        <svelte:component this={ComponentPresenter} value={selectedComponent} shouldShowAvatar={false} />
       </span>
     </svelte:fragment>
   </Button>

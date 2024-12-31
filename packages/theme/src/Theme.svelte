@@ -21,6 +21,7 @@
     getCurrentFontSize,
     getCurrentLanguage,
     getCurrentTheme,
+    getLanguageDirection,
     isThemeDark,
     themeStore as themeOptions
   } from './'
@@ -29,8 +30,9 @@
   const currentFontSize = getCurrentFontSize()
   let currentLanguage = getCurrentLanguage()
 
+
   const setOptions = (currentFont: string, theme: string, language: string) => {
-    themeOptions.set(new ThemeOptions(currentFont === 'normal-font' ? 16 : 14, isThemeDark(theme), language))
+    themeOptions.set(new ThemeOptions(currentFont === 'normal-font' ? 16 : 14, isThemeDark(theme),language, getLanguageDirection(language)))
   }
 
   const getRealTheme = (theme: string): string => (isThemeDark(theme) ? 'theme-dark' : 'theme-light')
@@ -57,6 +59,7 @@
     setMetadata(platform.metadata.locale, currentLanguage)
     await loadPluginStrings(currentLanguage, set)
     setOptions(getCurrentFontSize(), getCurrentTheme(), language)
+    setDocumentLanguage()
   }
 
   setContext('theme', {
@@ -74,6 +77,7 @@
 
   const setDocumentLanguage = (): void => {
     document.documentElement.lang = currentLanguage
+    document.documentElement.dir = getLanguageDirection(currentLanguage)
   }
 
   onMount(() => {

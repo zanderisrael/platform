@@ -91,5 +91,7 @@ export const languagesDisplayData: {
   th: { emoji: '🇹🇭', label: 'ไทย' },
   tr: { emoji: '🇹🇷', label: 'Türkçe' },
   uk: { emoji: '🇺🇦', label: 'Українська' },
-  vi: { emoji: '🇻🇳', label: 'Tiếng Việt' }
+  vi: { emoji: '🇻🇳', label: 'Tiếng Việt' },
+  he: { emoji: '🇮🇱', label: 'עברית' },
+  'he-IL': { emoji: '🇮🇱', label: 'עברית' }
 }

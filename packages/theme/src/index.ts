@@ -59,22 +59,31 @@ export const getCurrentLanguage = (): string => {
   Analytics.setTag('language', lang)
   return lang
 }
+/**
+ * @public
+ */
+export const getLanguageDirection = (locale:string): string => {
+  return locale === 'ar' || locale === 'he' ? 'rtl' : 'ltr';
+}
 
 export class ThemeOptions {
   constructor (
     readonly fontSize: number,
     readonly dark: boolean,
-    readonly language: string
+    readonly language: string,
+    readonly direction: string,
   ) {}
 }
 export const themeStore = writable<ThemeOptions>()
 
 export function initThemeStore (): void {
+  const lang = getCurrentLanguage();
   themeStore.set(
     new ThemeOptions(
       getCurrentFontSize() === 'normal-font' ? 16 : 14,
       isThemeDark(getCurrentTheme()),
-      getCurrentLanguage()
+      lang,
+      getLanguageDirection(lang)
     )
   )
 }

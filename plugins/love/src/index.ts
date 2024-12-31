@@ -84,6 +84,8 @@ export type RoomLanguage =
   | 'tr'
   | 'uk'
   | 'vi'
+  | 'he'
+  | 'he-IL'
 
 export interface RoomMetadata {
   recording?: boolean

@@ -1,0 +1,23 @@
+{
+  "string": {
+    "Requests": "בקשות",
+    "Request": "בקשה",
+    "Approve": "אשר",
+    "Approved": "אושר",
+    "CreatedRequest": "יצר בקשה",
+    "For": "עבור",
+    "Change": "שנה",
+    "Add": "הוסף",
+    "Remove": "הסר",
+    "Status": "מצב",
+    "Requested": "התבקש",
+    "Completed": "הושלם",
+    "Reject": "דחה",
+    "Rejected": "נדחה",
+    "Comment": "תגובה",
+    "PleaseTypeMessage": "אנא הקלד הודעת תגובה כדי להמשיך...",
+    "NoRequests": "אין בקשות",
+    "Cancel": "בטל",
+    "Cancelled": "בוטל"
+  }
+}

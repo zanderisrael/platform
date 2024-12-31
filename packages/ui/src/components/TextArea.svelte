@@ -44,6 +44,7 @@
 <div class="textarea" class:no-focus-border={noFocusBorder} style:width style:height style:margin>
   {#if label}<div class="label"><Label {label} /></div>{/if}
   <textarea
+    dir="auto"
     bind:value
     bind:this={input}
     {disabled}

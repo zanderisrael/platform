@@ -18,7 +18,7 @@
   import { getName, Person } from '@hcengineering/contact'
   import { Asset } from '@hcengineering/platform'
   import { getClient } from '@hcengineering/presentation'
-  import { AnySvelteComponent, IconSize } from '@hcengineering/ui'
+  import { AnySvelteComponent, IconSize, themeStore } from '@hcengineering/ui'
 
   export let value: Person
   export let subtitle: string | undefined = undefined
@@ -33,9 +33,41 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="flex-row-center" on:click>
-  <Avatar person={value} {size} {icon} name={value.name} on:accent-color {showStatus} />
-  <div class="flex-col min-w-0 {size === 'tiny' || size === 'inline' ? 'ml-1' : 'ml-2'}" class:max-w-20={short}>
-    {#if subtitle}<div class="content-dark-color text-sm">{subtitle}</div>{/if}
-    <div class="label text-left overflow-label">{getName(client.getHierarchy(), value)}</div>
+  <Avatar
+    person={value}
+    {size}
+    {icon}
+    name={value.name}
+    on:accent-color
+    {showStatus}
+  />
+
+  <!-- Conditional margin class (mr vs ml), based on RTL or LTR -->
+  <div
+    class="flex-col min-w-0
+      {size === 'tiny' || size === 'inline'
+        ? $themeStore.direction === 'rtl'
+          ? 'ml-1'
+          : 'mr-1'
+        : $themeStore.direction === 'rtl'
+          ? 'ml-2'
+          : 'mr-2'
+      }"
+    class:max-w-20={short}
+  >
+    {#if subtitle}
+      <div class="content-dark-color text-sm">{subtitle}</div>
+    {/if}
+
+    <!-- Conditional text alignment, based on RTL or LTR -->
+    <div
+      class="label overflow-label
+        {$themeStore.direction === 'rtl'
+          ? 'text-right'
+          : 'text-left'
+        }"
+    >
+      {getName(client.getHierarchy(), value)}
+    </div>
   </div>
 </div>

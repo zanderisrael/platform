@@ -282,7 +282,7 @@ table.proseTable {
           content: '';
           border: 2px solid var(--text-editor-table-marker-color);
           border-radius: 50%;
-          margin-left: calc(0.5rem - 1px);
+          margin-inline-start: calc(0.5rem - 1px);
         }
 
         svg {
@@ -370,8 +370,8 @@ table.proseTable {
 
 .proseBlockQuote {
   margin-inline: 1px 0;
-  padding-left: 1.5em;
-  padding-right: 1.5em;
+  padding-inline-start: 1.5em;
+  padding-inline-end: 1.5em;
   font-style: italic;
   position: relative;
 

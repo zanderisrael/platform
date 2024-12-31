@@ -1,0 +1,25 @@
+{
+  "status": {
+    "CategoryRequired": "נדרשת קטגוריה",
+    "NameRequired": "נדרש שם"
+  },
+  "string": {
+    "Categories": "קטגוריות",
+    "Category": "קטגוריה",
+    "CategoryCreateLabel": "קטגוריה",
+    "CreateCategory": "צור קטגוריה",
+    "CreateSubcategory": "צור תת-קטגוריה",
+    "Inventory": "מלאי",
+    "ProductCreateLabel": "מוצר",
+    "CreateProduct": "צור מוצר",
+    "Products": "מוצרים",
+    "Product": "מוצר",
+    "Variant": "וריאנט",
+    "SKU": "קוד מוצר",
+    "Variants": "וריאנטים",
+    "NoVariantsForProduct": "אין וריאנטים למוצר זה.",
+    "CreateVariant": "צור וריאנט",
+    "ConfigLabel": "מלאי",
+    "ConfigDescription": "הרחבה לניהול מלאי"
+  }
+}

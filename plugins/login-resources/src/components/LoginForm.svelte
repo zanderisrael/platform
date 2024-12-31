@@ -58,6 +58,6 @@
 
 <style lang="scss">
   .action {
-    margin-left: 5rem;
+    margin-inline-start: 5rem;
   }
 </style>

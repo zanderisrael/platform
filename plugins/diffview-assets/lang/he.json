@@ -1,0 +1,14 @@
+{
+  "string": {
+    "ViewMode": "מצב תצוגה",
+    "Unified": "מאוחד",
+    "Split": "מפוצל",
+    "Viewed": "נצפה",
+    "ShowDiff": "הצג הבדלים",
+    "NoChanges": "אין שינויים בהבדלי הקובץ",
+    "LargeDiffsAreHidden": "הבדלים גדולים אינם מוצגים כברירת מחדל.",
+    "FileIsTooLarge": "הקובץ גדול מדי להצגה.",
+    "FileWasRenamed": "הקובץ שונה שמו ללא שינויים.",
+    "FileWasDeleted": "הקובץ נמחק."
+  }
+}

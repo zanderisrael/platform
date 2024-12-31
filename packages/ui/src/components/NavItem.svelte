@@ -27,6 +27,7 @@
     IconFolderExpanded,
     IconFolderCollapsed
   } from '..'
+  import { themeStore } from '@hcengineering/theme'
 
   export let icon: Asset | AnySvelteComponent | undefined = undefined
   export let folderIcon: boolean = false
@@ -77,7 +78,8 @@
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <button
-  class="hulyNavItem-container line-height-auto {type} {type === 'type-anchor-link'
+  dir={$themeStore.direction}
+  class="hulyNavItem-container line-height-auto {$themeStore.direction == 'rtl' && 'flex-reverse'} {type} {type === 'type-anchor-link'
     ? 'font-regular-12'
     : 'font-regular-14'}"
   class:selected
@@ -203,7 +205,14 @@
       }
     }
     .hulyNavItem-icon {
-      margin-right: var(--spacing-1);
+      &:dir(rtl){
+        margin-left: var(--spacing-1);
+        margin-right: 0;
+      }
+      &:dir(ltr){
+        margin-right: var(--spacing-1);
+        margin-left: 0;
+      }
       width: var(--global-min-Size);
       height: var(--global-min-Size);
       color: var(--global-primary-TextColor);
@@ -225,6 +234,10 @@
     .hulyNavItem-label,
     .hulyNavItem-wideLabel {
       text-align: left;
+
+      &:dir(rtl){
+        text-align: right;
+      }
       color: var(--global-primary-TextColor);
     }
     .hulyNavItem-wideLabel {
@@ -257,10 +270,11 @@
 
     &.type-link {
       padding: 0 var(--spacing-0_5) 0 var(--spacing-1_25);
-
+      &:dir(rtl){ padding: 0 var(--spacing-1_25) 0 var(--spacing-0_5);}
       &.selected {
         &.indent {
-          padding-left: var(--spacing-4);
+          padding: 0 0 0 var(--spacing-4);
+          &:dir(rtl){ padding: 0 var(--spacing-4) 0 0 ;}
         }
         .hulyNavItem-icon {
           color: var(--global-accent-TextColor);
@@ -282,7 +296,8 @@
       padding: 0 var(--spacing-0_5);
 
       .hulyNavItem-icon {
-        margin-right: var(--spacing-0_75);
+        margin: 0 var(--spacing-0_75) 0 0 ;
+        &:dir(rtl){ margin: 0 0 0 var(--spacing-0_5);}
         width: var(--global-extra-small-Size);
         height: var(--global-extra-small-Size);
         background-color: var(--global-ui-BackgroundColor);
@@ -316,6 +331,7 @@
     }
     &.indent {
       padding-left: var(--spacing-4);
+      &:dir(rtl){ padding: 0 var(--spacing-4) 0 0 ;}
     }
     &:hover .hulyNavItem-chevron:enabled {
       color: var(--global-secondary-TextColor);

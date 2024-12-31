@@ -28,7 +28,8 @@
     ButtonSize
   } from '../index'
   import { createEventDispatcher } from 'svelte'
-
+  import { themeStore } from '@hcengineering/theme'
+  
   export let dropdownItems: SelectPopupValueType[]
   export let label: IntlString | undefined = undefined
   export let labelParams: Record<string, any> = {}
@@ -61,7 +62,7 @@
     {size}
     {kind}
     disabled={disabled || loading}
-    shape={hasDropdown ? 'rectangle-right' : undefined}
+    shape={hasDropdown ? $themeStore.direction == 'rtl' ? 'rectangle-left' : 'rectangle-right' : undefined}
     {justify}
     shrink={1}
     borderStyle="none"
@@ -83,7 +84,7 @@
     <Button
       width="1.75rem"
       {kind}
-      shape="rectangle-left"
+      shape={$themeStore.direction == 'rtl' ? 'rectangle-right' : 'rectangle-left'}
       justify="center"
       borderStyle="none"
       on:click={openDropdown}
@@ -102,11 +103,19 @@
 
 <style lang="scss">
   .vertical-divider {
-    position: absolute;
+    
     background-color: var(--theme-content-color);
     min-width: 1px;
     opacity: 0.25;
-    right: -0.75rem;
+
+    &:dir(ltr) { 
+      position: absolute;
+      right: -0.75rem;
+    } 
+    &:dir(rtl) {
+      position: relative;
+      left : -0.75rem;
+    }
 
     &.primary,
     &.secondary,

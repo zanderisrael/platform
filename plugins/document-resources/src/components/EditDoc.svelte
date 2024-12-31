@@ -470,7 +470,7 @@
     margin-bottom: 1rem;
 
     .icon {
-      margin-left: -3rem;
+      margin-inline-start: -3rem;
       width: 3rem;
     }
   }

@@ -515,7 +515,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-shrink: 0;
-    padding: 0 0.5rem;
+    padding-inline-start: 0.5rem;
     font-weight: 400;
     min-width: 1.5rem;
     width: min-content;
@@ -529,7 +529,7 @@
     cursor: default;
 
     &.noPadding {
-      padding: 0;
+      padding-inline: 0;
     }
 
     &.small {
@@ -545,7 +545,7 @@
     }
 
     .btn-icon {
-      margin-right: 0.375rem;
+      margin-inline-end: 0.375rem;
       width: 1rem;
       height: 1rem;
       transition: color 0.15s;
@@ -569,7 +569,7 @@
     }
 
     &.default {
-      padding: 0;
+      padding-inline: 0;
       color: var(--theme-content-color);
 
       &:hover {
@@ -651,7 +651,7 @@
       }
 
       &.edit {
-        padding: 0 0.125rem;
+        padding-inline-start: 0.125rem;
         background-color: transparent;
         border-color: var(--primary-edit-border-color);
 
@@ -662,7 +662,7 @@
     }
 
     &.link {
-      padding: 0 0.75rem;
+      padding-inline-start: 0.75rem;
       width: 100%;
       color: var(--theme-caption-color);
 
@@ -676,12 +676,12 @@
       }
 
       &.edit {
-        padding: 0 0.5rem;
+        padding-inline-start: 0.5rem;
       }
     }
 
     &.regular {
-      padding: 0 0.75rem;
+      padding-inline: 0.75rem;
       color: var(--theme-caption-color);
       background-color: var(--theme-button-default);
       border-color: var(--theme-button-border);
@@ -708,7 +708,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 0 0.25rem;
+      margin-inline-start: 0.25rem;
       width: 0.75rem;
       height: 0.75rem;
       color: var(--theme-content-color);
@@ -725,7 +725,7 @@
 
     .digit {
       position: relative;
-      padding: 0 0.125rem;
+      padding-inline-start: 0.125rem;
       height: 1.125rem;
       line-height: 1.125rem;
       color: var(--accent-color);
@@ -749,7 +749,7 @@
 
     .time-divider {
       flex-shrink: 0;
-      margin: 0 0.25rem;
+      margin-inline-start: 0.25rem;
       width: 1px;
       min-width: 1px;
       height: 0.75rem;
@@ -757,7 +757,7 @@
     }
 
     .separator {
-      margin: 0 0.1rem;
+      margin-inline-start: 0.1rem;
     }
 
     &.notSelected {

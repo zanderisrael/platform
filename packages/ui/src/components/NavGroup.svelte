@@ -18,6 +18,7 @@
   import type { Asset, IntlString } from '@hcengineering/platform'
   import { getEmbeddedLabel } from '@hcengineering/platform'
   import type { AnyComponent, IconSize, AnySvelteComponent } from '..'
+  import { themeStore } from '@hcengineering/theme'
   import {
     showPopup,
     Menu,
@@ -86,13 +87,15 @@
 </script>
 
 <div
+
   class="hulyNavGroup-container"
   class:nested={type === 'nested' || type === 'nested-selectable'}
   class:selectable={type === 'nested-selectable'}
   class:noDivider
 >
   <button
-    class="hulyNavGroup-header"
+    dir={$themeStore.direction}
+    class="hulyNavGroup-header {$themeStore.direction == "rtl" && 'row-reverse'}"
     class:isOpen={(isOpen || visible) && !empty}
     class:highlighted
     class:selected
@@ -103,6 +106,7 @@
     on:dragover
     on:drop
   >
+    <div class="{$themeStore.direction == "rtl" ? 'flex-row-reverse': 'flex'}">
     {#if isFold && !empty}
       <button class="hulyNavGroup-header__chevron" class:collapsed={!isOpen}>
         <IconDown size={'small'} />
@@ -126,6 +130,7 @@
       {#if actions.length > 0}
         <IconDownOutline size={'tiny'} />
       {/if}
+    </div>
     </div>
     <div class="flex-grow" />
     {#if $$slots.extra}<slot name="extra" />{/if}

@@ -15,6 +15,7 @@
     justify-content: center;
     width: var(--spacing-2_5);
     height: var(--spacing-2_5);
+    &:dir(rtl) { transform: scaleX(-1); }
   }
   span { white-space: nowrap; }
 
@@ -226,6 +227,7 @@
   border: 1px solid transparent;
   transition-property: border, background-color, color, box-shadow;
   transition-duration: .15s;
+
   &.testing {
     transition-duration: 0;
   }
@@ -260,21 +262,27 @@
 
   &.iconL:not(.iconR, .only-icon) { padding: 0 1rem 0 .75rem; }
   &.iconR:not(.iconL, .only-icon) { padding: 0 .75rem 0 1rem; }
+
   .btn-icon {
     color: var(--theme-content-color);
     transition: color .15s;
     pointer-events: none;
+
+    &:dir(rtl) { transform: scaleX(-1); }
+
   }
   .btn-right-icon {
-    margin-left: .5rem;
+    margin-inline-start: .5rem;
     color: var(--theme-halfcontent-color);
     transition: color .15s;
     pointer-events: none;
+
+    &:dir(rtl) { transform: scaleX(-1); }
   }
-  &.gap-large:not(.only-icon, .gap-medium) .btn-icon:not(.spinner) { margin-right: .5rem; }
-  &.gap-large:not(.only-icon, .gap-medium) .btn-right-icon { margin-left: .5rem; }
-  &.gap-medium:not(.only-icon, .gap-large) .btn-icon:not(.spinner) { margin-right: .375rem; }
-  &.gap-medium:not(.only-icon, .gap-large) .btn-right-icon { margin-left: .375rem; }
+  &.gap-large:not(.only-icon, .gap-medium) .btn-icon:not(.spinner) { margin-inline-end: .5rem; }
+  &.gap-large:not(.only-icon, .gap-medium) .btn-right-icon { margin-inline-start: .5rem; }
+  &.gap-medium:not(.only-icon, .gap-large) .btn-icon:not(.spinner) { margin-inline-end: .375rem; }
+  &.gap-medium:not(.only-icon, .gap-large) .btn-right-icon { margin-inline-start: .375rem; }
 
   &.short { max-width: 8.5rem; }
   &.accent { font-weight: 500; }

@@ -1,0 +1,11 @@
+{
+  "string": {
+    "ShowNotifications": "הצג התראות",
+    "PlaySound": "השמע צליל",
+    "BounceAppIcon": "זינוק סמל האפליקציה (רק למק)",
+    "ShowBadge": "הצג תג על סמל האפליקציה",
+    "SoundAndAppearance": "צליל ומראה",
+    "HaveGotANotification": "קיבלת התראה",
+    "TotalNotificationsCount": "יש לך {count, plural, =1 {התראה אחת} other {# התראות}} בסך הכל"
+  }
+}

@@ -305,8 +305,11 @@
         font-size: 14px;
         color: var(--theme-content-color);
       }
-      .clock {
+      .clock { 
         margin: 0 12px 0 8px;
+        &:dir(rtl) {
+          margin: 0 8px 0 12px;
+        }
       }
 
       .second-row {

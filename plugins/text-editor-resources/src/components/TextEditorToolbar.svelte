@@ -40,6 +40,7 @@
 
   let actions: TextEditorAction[]
   $: actionsQuery.query(textEditor.class.TextEditorAction, {}, (result) => {
+    debugger;
     actions = result.filter((action) => action.kind === kind || (kind === 'text' && action.kind === undefined))
   })
 
@@ -52,6 +53,7 @@
     ctx: ActionContext
   ): Promise<void> {
     const newVisibleActions = []
+
     if (e !== undefined && actions !== undefined) {
       for (const action of actions) {
         const tester = action.visibilityTester
