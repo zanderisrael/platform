@@ -151,7 +151,7 @@ export interface DBAdapterManager {
 
   close: () => Promise<void>
 
-  registerHelper: (helper: DomainHelper) => Promise<void>
+  registerHelper: (ctx: MeasureContext, helper: DomainHelper) => Promise<void>
 
   initAdapters: (ctx: MeasureContext) => Promise<void>
 
@@ -162,6 +162,11 @@ export interface DBAdapterManager {
 
 export interface PipelineContext {
   workspace: WorkspaceIdWithUrl
+
+  lastTx?: string
+
+  lastHash?: string
+
   hierarchy: Hierarchy
   modelDb: ModelDb
   branding: Branding | null
@@ -548,6 +553,13 @@ export interface Session {
     query: DocumentQuery<T>,
     options?: FindOptions<T>
   ) => Promise<void>
+  findAllRaw: <T extends Doc>(
+    ctx: MeasureContext,
+    pipeline: Pipeline,
+    _class: Ref<Class<T>>,
+    query: DocumentQuery<T>,
+    options?: FindOptions<T>
+  ) => Promise<FindResult<T>>
   searchFulltext: (ctx: ClientSessionCtx, query: SearchQuery, options: SearchOptions) => Promise<void>
   tx: (ctx: ClientSessionCtx, tx: Tx) => Promise<void>
   loadChunk: (ctx: ClientSessionCtx, domain: Domain, idx?: number) => Promise<void>

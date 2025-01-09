@@ -20,7 +20,8 @@ import core, {
   type Timestamp,
   type Tx,
   type TxCUD,
-  DOMAIN_TX
+  DOMAIN_TX,
+  withContext
 } from '@hcengineering/core'
 import { PlatformError, unknownError } from '@hcengineering/platform'
 import type {
@@ -51,6 +52,7 @@ export class ModelMiddleware extends BaseMiddleware implements Middleware {
     super(context, next)
   }
 
+  @withContext('modelAdapter-middleware')
   static async doCreate (
     ctx: MeasureContext,
     context: PipelineContext,
@@ -115,6 +117,7 @@ export class ModelMiddleware extends BaseMiddleware implements Middleware {
 
   private setLastHash (hash: string): void {
     this.lastHash = hash
+    this.context.lastHash = this.lastHash
     this.lastHashResponse = Promise.resolve({
       full: false,
       hash,

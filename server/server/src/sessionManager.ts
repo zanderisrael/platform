@@ -418,6 +418,7 @@ class TSessionManager implements SessionManager {
       })
       workspace = this.createWorkspace(
         ctx.parent ?? ctx,
+        ctx,
         pipelineFactory,
         token,
         workspaceInfo.workspaceUrl ?? workspaceInfo.workspaceId,
@@ -435,7 +436,7 @@ class TSessionManager implements SessionManager {
           workspace: workspaceInfo.workspaceId,
           wsUrl: workspaceInfo.workspaceUrl
         })
-        pipeline = await ctx.with('💤 wait', { workspaceName }, () => (workspace as Workspace).pipeline)
+        pipeline = await ctx.with('💤 wait-pipeline', {}, () => (workspace as Workspace).pipeline)
       } else {
         ctx.warn('reconnect workspace in upgrade switch', {
           email: token.email,
@@ -466,9 +467,10 @@ class TSessionManager implements SessionManager {
         })
         return { upgrade: true }
       }
+
       try {
         if (workspace.pipeline instanceof Promise) {
-          pipeline = await workspace.pipeline
+          pipeline = await ctx.with('💤 wait-pipeline', {}, () => (workspace as Workspace).pipeline)
           workspace.pipeline = pipeline
         } else {
           pipeline = workspace.pipeline
@@ -549,6 +551,7 @@ class TSessionManager implements SessionManager {
     // Drop all existing clients
     workspace.closing = this.closeAll(wsString, workspace, 0, 'upgrade')
     await workspace.closing
+    workspace.closing = undefined
     // Wipe workspace and update values.
     workspace.workspaceName = workspaceName
     if (!workspace.upgrade) {
@@ -644,6 +647,7 @@ class TSessionManager implements SessionManager {
 
   private createWorkspace (
     ctx: MeasureContext,
+    pipelineCtx: MeasureContext,
     pipelineFactory: PipelineFactory,
     token: Token,
     workspaceUrl: string,
@@ -654,7 +658,6 @@ class TSessionManager implements SessionManager {
     const wsId = toWorkspaceString(token.workspace)
     const upgrade = token.extra?.model === 'upgrade'
     const context = ctx.newChild('🧲 session', {})
-    const pipelineCtx = context.newChild('🧲 pipeline-factory', {})
     const workspace: Workspace = {
       context,
       id: generateId(),
@@ -715,21 +718,38 @@ class TSessionManager implements SessionManager {
       const user = pipeline.context.modelDb.getAccountByEmail(session.getUser())
       if (user === undefined) return
 
-      const status = (await pipeline.findAll(ctx, core.class.UserStatus, { user: user._id }, { limit: 1 }))[0]
+      const clientCtx: ClientSessionCtx = {
+        requestId: undefined,
+        pipeline,
+        sendResponse: async (msg) => {
+          // No response
+        },
+        ctx,
+        sendError: async (msg, error: Status) => {
+          // Assume no error send
+        },
+        sendPong: () => {}
+      }
+      const status = (
+        await session.findAllRaw(ctx, pipeline, core.class.UserStatus, { user: user._id }, { limit: 1 })
+      )[0]
       const txFactory = new TxFactory(user._id, true)
       if (status === undefined) {
         const tx = txFactory.createTxCreateDoc(core.class.UserStatus, core.space.Space, {
           online,
           user: user._id
         })
-        await pipeline.tx(ctx, [tx])
+        await session.tx(clientCtx, tx)
       } else if (status.online !== online) {
         const tx = txFactory.createTxUpdateDoc(status._class, status.space, status._id, {
           online
         })
-        await pipeline.tx(ctx, [tx])
+        await session.tx(clientCtx, tx)
       }
-    } catch {}
+    } catch (err: any) {
+      ctx.error('failed to set status', { err })
+      Analytics.handleError(err)
+    }
   }
 
   async close (ctx: MeasureContext, ws: ConnectionSocket, wsid: string): Promise<void> {
@@ -786,8 +806,9 @@ class TSessionManager implements SessionManager {
     if (ws !== undefined) {
       ws.upgrade = true // We need to similare upgrade to refresh all clients.
       ws.closing = this.closeAll(wsId, ws, 99, 'force-close', ignoreSocket)
-      await ws.closing
       this.workspaces.delete(wsId)
+      await ws.closing
+      ws.closing = undefined
     }
   }
 
@@ -818,6 +839,7 @@ class TSessionManager implements SessionManager {
         this.sendUpgrade(workspace.context, webSocket, s.binaryMode)
       }
       webSocket.close()
+      this.reconnectIds.delete(s.sessionId)
     }
 
     if (LOGGING_ENABLED) {
@@ -987,7 +1009,7 @@ class TSessionManager implements SessionManager {
           return
         }
         if (request.id === -1 && request.method === 'hello') {
-          this.handleHello<S>(request, service, ctx, workspace, ws, requestCtx)
+          await this.handleHello<S>(request, service, ctx, workspace, ws, requestCtx)
           return
         }
         if (request.id === -2 && request.method === 'forceClose') {
@@ -1050,14 +1072,14 @@ class TSessionManager implements SessionManager {
       })
   }
 
-  private handleHello<S extends Session>(
+  private async handleHello<S extends Session>(
     request: Request<any>,
     service: S,
     ctx: MeasureContext<any>,
     workspace: string,
     ws: ConnectionSocket,
     requestCtx: MeasureContext<any>
-  ): void {
+  ): Promise<void> {
     const hello = request as HelloRequest
     service.binaryMode = hello.binary ?? false
     service.useCompression = hello.compression ?? false
@@ -1077,12 +1099,17 @@ class TSessionManager implements SessionManager {
     if (reconnect) {
       this.reconnectIds.delete(service.sessionId)
     }
+    const pipeline =
+      service.workspace.pipeline instanceof Promise ? await service.workspace.pipeline : service.workspace.pipeline
     const helloResponse: HelloResponse = {
       id: -1,
       result: 'hello',
       binary: service.binaryMode,
       reconnect,
-      serverVersion: this.serverVersion
+      serverVersion: this.serverVersion,
+      lastTx: pipeline.context.lastTx,
+      lastHash: pipeline.context.lastHash,
+      account: service.getRawAccount(pipeline)
     }
     ws.send(requestCtx, helloResponse, false, false)
   }

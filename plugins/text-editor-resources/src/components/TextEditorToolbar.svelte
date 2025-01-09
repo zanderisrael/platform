@@ -62,7 +62,6 @@
           const { command } = action.action
 
           if ((editor.commands as any)[command] === undefined) {
-            console.error(`Command ${command} not found`)
             continue
           }
         }
