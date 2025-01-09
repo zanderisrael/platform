@@ -1235,6 +1235,9 @@ dependencies:
   '@tiptap/extension-task-list':
     specifier: ^2.6.6
     version: 2.6.6(@tiptap/core@2.6.6)
+  '@tiptap/extension-text-align':
+    specifier: ^2.6.6
+    version: 2.11.0(@tiptap/core@2.6.6)
   '@tiptap/extension-typography':
     specifier: ^2.6.6
     version: 2.6.6(@tiptap/core@2.6.6)
@@ -6252,6 +6255,14 @@ packages:
       '@tiptap/core': 2.6.6(@tiptap/pm@2.6.6)
     dev: false
 
+  /@tiptap/extension-text-align@2.11.0(@tiptap/core@2.6.6):
+    resolution: {integrity: sha512-VRXBqO17po6ddqhoWLBa2aCX/tqHdzdKPLfjnBy1fF8hjQKbidzjMWhb4CMm31ApvJjKK/DTkM3EnyYS/XDhng==}
+    peerDependencies:
+      '@tiptap/core': ^2.7.0
+    dependencies:
+      '@tiptap/core': 2.6.6(@tiptap/pm@2.6.6)
+    dev: false
+
   /@tiptap/extension-text@2.6.6(@tiptap/core@2.6.6):
     resolution: {integrity: sha512-e84uILnRzNzcwK1DVQNpXVmBG1Cq3BJipTOIDl1LHifOok7MBjhI/X+/NR0bd3N2t6gmDTWi63+4GuJ5EeDmsg==}
     peerDependencies:
@@ -8057,7 +8068,7 @@ packages:
   /acorn-globals@7.0.1:
     resolution: {integrity: sha512-umOSDSDrfHbTNPuNpC2NSnnA3LUrqpevPb4T9jRx4MagXNS0rs+gwiTcAvqCRmsD6utzsrzNt+ebm00SNWiC3Q==}
     dependencies:
-      acorn: 8.11.3
+      acorn: 8.14.0
       acorn-walk: 8.3.2
     dev: false
 
@@ -14845,7 +14856,7 @@ packages:
         optional: true
     dependencies:
       abab: 2.0.6
-      acorn: 8.11.3
+      acorn: 8.14.0
       acorn-globals: 7.0.1
       cssom: 0.5.0
       cssstyle: 2.3.0
@@ -19959,7 +19970,7 @@ packages:
     hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.5
-      acorn: 8.11.3
+      acorn: 8.14.0
       commander: 2.20.3
       source-map-support: 0.5.21
     dev: false
@@ -24760,7 +24771,7 @@ packages:
     dev: false
 
   file:projects/importer.tgz(esbuild@0.24.2)(ts-node@10.9.2):
-    resolution: {integrity: sha512-2BSUFKldNxsA3oJ/xjVKMJc975re0WnY1T24b0yscLWNGfMchaPaHNLBMIpd3d4rXywTX0qqBNPt+aWkp2XVBA==, tarball: file:projects/importer.tgz}
+    resolution: {integrity: sha512-nd4QEoFM7LFj37X/9PCtKl2HTaQl3xnpCbJL+FBuYPJhimHzG4KTvb3E5vZ31OZxgAzYBBLZb1KsswqqlXAJ9A==, tarball: file:projects/importer.tgz}
     id: file:projects/importer.tgz
     name: '@rush-temp/importer'
     version: 0.0.0
@@ -27401,7 +27412,7 @@ packages:
     dev: false
 
   file:projects/pod-backup.tgz:
-    resolution: {integrity: sha512-f8l7TT88HfNQ8lRgFe4lA5Zbzb3nPF+9dBmaOAd1SFLWAnbp959dyN4CxGPWQDu4VeQ50vKe3wg7FxoYpgQRyg==, tarball: file:projects/pod-backup.tgz}
+    resolution: {integrity: sha512-Ccg90DAJu+vNRMm00Z8W768WT8M6AKzjUFktH9/RBbDGQSF+UYQNm7Ah/cMJnJ0GMOg/dQ//r7Tob7WL4kaBeg==, tarball: file:projects/pod-backup.tgz}
     name: '@rush-temp/pod-backup'
     version: 0.0.0
     dependencies:
@@ -32508,7 +32519,7 @@ packages:
     dev: false
 
   file:projects/text-editor-resources.tgz(@types/node@20.11.19)(bufferutil@4.0.8)(esbuild@0.24.2)(highlight.js@11.8.0)(postcss-load-config@4.0.2)(postcss@8.4.35)(ts-node@10.9.2)(utf-8-validate@6.0.4):
-    resolution: {integrity: sha512-F0E6R31dkSA4Oa+lx7pYoKeHmMI1N0wMDKomkWOhwtChvWo3EZRj9xySEthXFV8au0htnsi+rKeywFOCcGdmGg==, tarball: file:projects/text-editor-resources.tgz}
+    resolution: {integrity: sha512-GKAZknTi60DEgXSQDGPjndoTu0rqUJ2Sg+RaQYe+PK61BUP5eP90a4wmw8xFX8n2IivsQb7qg846nYc0nJguBg==, tarball: file:projects/text-editor-resources.tgz}
     id: file:projects/text-editor-resources.tgz
     name: '@rush-temp/text-editor-resources'
     version: 0.0.0
@@ -32531,6 +32542,7 @@ packages:
       '@tiptap/extension-table-cell': 2.6.6(@tiptap/core@2.6.6)
       '@tiptap/extension-table-header': 2.6.6(@tiptap/core@2.6.6)
       '@tiptap/extension-table-row': 2.6.6(@tiptap/core@2.6.6)
+      '@tiptap/extension-text-align': 2.11.0(@tiptap/core@2.6.6)
       '@tiptap/extension-typography': 2.6.6(@tiptap/core@2.6.6)
       '@tiptap/extension-underline': 2.6.6(@tiptap/core@2.6.6)
       '@tiptap/pm': 2.6.6
@@ -32675,7 +32687,7 @@ packages:
     dev: false
 
   file:projects/text.tgz(@types/node@20.11.19)(bufferutil@4.0.8)(esbuild@0.24.2)(ts-node@10.9.2)(utf-8-validate@6.0.4):
-    resolution: {integrity: sha512-1V1MwGEZv1UxhJ4js4mIMG6U87MbA6jlzPZyE6EmtNpYbQ12DfVTp2XpiK3JlZKs95itkJcFCSTQIMsYSrw4yw==, tarball: file:projects/text.tgz}
+    resolution: {integrity: sha512-Arc2k2o4rzH67+ynweWVtAMii7YzT83AUBiy0wDDTGn4hA5FY6rWLilRcwDixOwqO04Atg2N53b1PIn1w8ZlFQ==, tarball: file:projects/text.tgz}
     id: file:projects/text.tgz
     name: '@rush-temp/text'
     version: 0.0.0
@@ -32695,6 +32707,7 @@ packages:
       '@tiptap/extension-table-row': 2.6.6(@tiptap/core@2.6.6)
       '@tiptap/extension-task-item': 2.6.6(@tiptap/core@2.6.6)(@tiptap/pm@2.6.6)
       '@tiptap/extension-task-list': 2.6.6(@tiptap/core@2.6.6)
+      '@tiptap/extension-text-align': 2.11.0(@tiptap/core@2.6.6)
       '@tiptap/extension-typography': 2.6.6(@tiptap/core@2.6.6)
       '@tiptap/extension-underline': 2.6.6(@tiptap/core@2.6.6)
       '@tiptap/html': 2.6.6(@tiptap/core@2.6.6)(@tiptap/pm@2.6.6)
